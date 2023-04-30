@@ -1,0 +1,18 @@
+@font-face {
+    font-family: "pixel";
+    src: url("./font/x12y16pxMaruMonica.ttf") format("truetype");
+}
+  
+body {
+    font-family: "pixel";
+    letter-spacing: 0.02em!important;
+}
+
+.hover:hover{
+    opacity: 0.7;
+    cursor: pointer;
+}
+
+.hover:active{
+    padding-top: 2rem;
+}
