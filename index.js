@@ -136,21 +136,21 @@ class View{
         return items;
     }
 
-    static purchaseContainer (user, itemCon, itemsCon) {
+    static purchaseContainer (user, item, itemsCon) {
         const purchase = document.createElement("div");
-        const unit = itemCon.type === "ability" ? "/click" : item.type === "investment" ? "% / sec" : "/sec";
+        const unit = item.type === "ability" ? "/click" : item.type === "investment" ? "% / sec" : "/sec";
 
         purchase.innerHTML =
         `
             <div class="d-flex justify-content-between align-items-center ml-3">
                 <div>
-                    <h5>${itemCon.itemConName}</h5>
-                    <p>Max purchases: ${itemCon.max}</p>
-                    <p>Price: ¥${itemCon.price}</p>
-                    <p>Earn ¥${itemCon.earning}${unit}</p>
+                    <h5>${item.itemName}</h5>
+                    <p>Max purchases: ${item.max}</p>
+                    <p>Price: ¥${item.price}</p>
+                    <p>Earn ¥${item.earning}${unit}</p>
                 </div>
                 <div class="col-6">
-                    <img src="${itemCon.img}" class="img-fluid">
+                    <img src="${item.img}" class="img-fluid">
                 </div>
             </div>
             <div class="col-12">
@@ -167,7 +167,7 @@ class View{
         // listening the change of the counter input value
         purchase.querySelectorAll("input")[0].addEventListener("change", () => {
             const total = document.createElement("p");
-            const totalCost = purchase.querySelectorAll("input")[0].value * itemCon.price; 
+            const totalCost = purchase.querySelectorAll("input")[0].value * item.price; 
             purchase.querySelectorAll("#total")[0].innerHTML = '';
             total.innerHTML = `total: ¥${totalCost}`;
             purchase.querySelectorAll("#total")[0].append(total);
@@ -194,8 +194,8 @@ class View{
             // only when the OK is clicked, proceed to purchase
             const confirmation = confirm("Determine the purchase?");
             if(confirmation){
-                itemCon.count += parseInt(purchase.querySelectorAll("input")[0].value);
-                user.dailyIncome += itemCon.earning * purchase.querySelectorAll("input")[0].value;
+                item.count += parseInt(purchase.querySelectorAll("input")[0].value);
+                user.dailyIncome += item.earning * purchase.querySelectorAll("input")[0].value;
                 user.money -= totalCost;
                 Config.gamePage.innerHTML = '';
                 Config.gamePage.append(View.mainGameContaier(user));
