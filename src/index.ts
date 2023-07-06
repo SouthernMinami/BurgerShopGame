@@ -1,5 +1,5 @@
 if (typeof document !== 'undefined') {
-    class Config{
+    class Config {
         static loginPage: HTMLDivElement = <HTMLDivElement>document.getElementById("loginPage");
         static gamePage: HTMLDivElement = <HTMLDivElement>document.getElementById("gamePage");
     }
@@ -15,7 +15,7 @@ if (typeof document !== 'undefined') {
         items: Item[];
         intervalId: NodeJS.Timer = null;
 
-        constructor(name: string, burger: number, burgerIncome: number, dailyIncome: number, age: number, day: number, money: number, items: Item[]){
+        constructor(name: string, burger: number, burgerIncome: number, dailyIncome: number, age: number, day: number, money: number, items: Item[]) {
             this.name = name;
             this.burger = burger;
             this.burgerIncome = burgerIncome;
@@ -36,7 +36,7 @@ if (typeof document !== 'undefined') {
         earning: number;
         type: string;
         img: string;
-        constructor(itemName: string, count: number, max: number, price: number, earning: number, type: string, img: string){
+        constructor(itemName: string, count: number, max: number, price: number, earning: number, type: string, img: string) {
             this.itemName = itemName;
             this.count = count;
             this.max = max;
@@ -47,22 +47,22 @@ if (typeof document !== 'undefined') {
         }
     }
 
-    class View{
-        static displayBlock(ele: HTMLElement){
+    class View {
+        static displayBlock(ele: HTMLElement) {
             ele.classList.add("d-block");
             ele.classList.remove("d-none");
         }
 
-        static displayNone(ele: HTMLElement){
+        static displayNone(ele: HTMLElement) {
             ele.classList.add("d-none");
             ele.classList.remove("d-block");
         }
-        
+
         static mainGameContaier(user: User) {
             const main: HTMLDivElement = <HTMLDivElement>document.createElement("div");
-            main.classList.add("vh-100", "d-flex");   
-            main.innerHTML = 
-            `
+            main.classList.add("container");
+            main.innerHTML =
+                `
                 <div class="d-block d-sm-flex justify-content-center p-0 p-lg-2" id="coalescence">
                     <div class="col-sm-4 p-1 p-lg-2" id="left"></div>
                     <div class="col-sm-8 p-1 p-lg-2">
@@ -71,7 +71,7 @@ if (typeof document !== 'undefined') {
                 </div>
             `;
             const left: HTMLDivElement = <HTMLDivElement>main.querySelectorAll("#left")[0];
-            const right: HTMLDivElement = <HTMLDivElement> main.querySelectorAll("#right")[0];
+            const right: HTMLDivElement = <HTMLDivElement>main.querySelectorAll("#right")[0];
             left.append(View.leftContainer(user));
             right.append(View.rightContainer(user));
             main.append(left);
@@ -79,11 +79,11 @@ if (typeof document !== 'undefined') {
             return main;
         }
 
-        static leftContainer (user: User) {
+        static leftContainer(user: User) {
             const left: HTMLDivElement = <HTMLDivElement>document.createElement("div");
-            left.classList.add("vh-100", "col-10", "bg-dark", "mx-3", "mr-4");
-            left.innerHTML = 
-            `
+            left.classList.add("left");
+            left.innerHTML =
+                `
                 <div class="text-center text-white" id="burgerInfo">
                     <h5 id="burgerCount">${user.burger} Burgers</h5>
                     <p>One click ￥${user.burgerIncome}</p>
@@ -98,36 +98,45 @@ if (typeof document !== 'undefined') {
             return left;
         }
 
-        static rightContainer (user: User) {
-            const right: HTMLDivElement = <HTMLDivElement>document.createElement("div");        
+        static rightContainer(user: User) {
+            const right: HTMLDivElement = <HTMLDivElement>document.createElement("div");
+            right.classList.add("right");
             right.append(View.infoContainer(user));
             right.append(View.itemsContainer(user, user.items))
             return right;
         }
 
-        static infoContainer (user: User) {
+        static infoContainer(user: User) {
             const info: HTMLDivElement = <HTMLDivElement>document.createElement("div");
-            info.classList.add("d-flex", "flex-wrap", "align-items-center", "col-12", "bg-dark");
-            info.innerHTML = 
-            `
-                <p class="col-6 bg-warning">${user.name}</p>
-                <p id="age" class="col-6 bg-warning">${user.age} years old</p>
-                <p id="days" class="col-6 bg-warning">${user.day} days</p>
-                <p id="money" class="col-6 bg-warning">¥${user.money}</p>
+            info.classList.add("info");
+            info.innerHTML =
+                `
+                <div>
+                    <p class="col-6 bg-warning">${user.name}</p>
+                </div>
+                <div>                        
+                    <p id="age" class="col-6 bg-warning">${user.age} years old</p>
+                </div>
+                <div>
+                    <p id="days" class="col-6 bg-warning">${user.day} days</p>
+                </div>
+                <div>
+                    <p id="money" class="col-6 bg-warning">¥${user.money}</p>
+                </div>
             `
             return info;
         }
 
-        static itemsContainer (user: User, itemList: Item[]) {
+        static itemsContainer(user: User, itemList: Item[]) {
             const items: HTMLDivElement = <HTMLDivElement>document.createElement("div");
             items.setAttribute("id", "items");
-            for(let i = 0; i < itemList.length; i++){
+            for (let i = 0; i < itemList.length; i++) {
                 const item = document.createElement("div");
                 item.classList.add("d-flex", "hover", "align-items-center", "w-95");
                 const itemInfo = itemList[i];
                 const unit = itemInfo.type === "ability" ? "/click" : itemInfo.type === "investment" ? "% / sec" : "/sec";
-                item.innerHTML += 
-                `
+                item.innerHTML +=
+                    `
                 <div class="itemImg col-sm-3 d-sm-block d-none p-1">
                     <img src="${itemInfo.img}" class="img-fluid"/>
                 </div>
@@ -152,11 +161,11 @@ if (typeof document !== 'undefined') {
             return items;
         }
 
-        static purchaseContainer (user: User, item: Item, itemsCon: HTMLDivElement) {
+        static purchaseContainer(user: User, item: Item, itemsCon: HTMLDivElement) {
             const purchase: HTMLDivElement = <HTMLDivElement>document.createElement("div");
             const unit: string = item.type === "ability" ? "/click" : item.type === "investment" ? "% / sec" : "/sec";
             purchase.innerHTML =
-            `
+                `
                 <div class="d-flex justify-content-between align-items-center ml-3">
                     <div>
                         <h5>${item.itemName}</h5>
@@ -183,8 +192,8 @@ if (typeof document !== 'undefined') {
             purchase.querySelectorAll("input")[0].addEventListener("change", () => {
                 const total: HTMLParagraphElement = <HTMLParagraphElement>document.createElement("p");
                 const purchaseCount: number = parseInt(purchase.querySelectorAll("input")[0].value);
-                const totalCost: number = purchaseCount * item.price; 
-    
+                const totalCost: number = purchaseCount * item.price;
+
                 purchase.querySelectorAll("#total")[0].innerHTML = '';
                 total.innerHTML = `total: ¥${totalCost}`;
                 purchase.querySelectorAll("#total")[0].append(total);
@@ -199,20 +208,20 @@ if (typeof document !== 'undefined') {
             // purchase the item
             purchase.querySelectorAll("#purchaseBtn")[0].addEventListener("click", () => {
                 const purchaseCount: number = parseInt(purchase.querySelectorAll("input")[0].value);
-                const totalCost: number = purchaseCount * item.price; 
-    
-                if(purchaseCount <= 0){
+                const totalCost: number = purchaseCount * item.price;
+
+                if (purchaseCount <= 0) {
                     alert("Invalid number. Please enter 1 or more.");
                     return;
-                } 
-                else if(user.money < totalCost){
+                }
+                else if (user.money < totalCost) {
                     alert("You don't have enough! Earn! Earn!! Earn!!!!!");
                     return;
                 }
 
                 // only when the OK is clicked, proceed to purchase
                 const confirmation: boolean = confirm("Determine the purchase?");
-                if(confirmation){
+                if (confirmation) {
                     item.count += parseInt(purchase.querySelectorAll("input")[0].value);
                     user.dailyIncome += item.earning * purchaseCount;
                     user.money -= totalCost;
@@ -225,9 +234,9 @@ if (typeof document !== 'undefined') {
 
         static configButtons(user: User) {
             const buttonsCon: HTMLDivElement = document.createElement("div");
-            buttonsCon.classList.add("d-flex", "justify-content-end", "mt-3");
-            buttonsCon.innerHTML = 
-            `
+            buttonsCon.classList.add("buttons");
+            buttonsCon.innerHTML =
+                `
                 <button id="dontSave" class="btn btn-outline-primary bg-white mr-3">END WITHOUT SAVE</button>
                 <button id="save" class="btn btn-primary mr-3">SAVE AND END</button>
             `
@@ -243,7 +252,7 @@ if (typeof document !== 'undefined') {
         }
     }
 
-    class Controller{
+    class Controller {
         static start() {
             Config.loginPage.querySelectorAll(".sign-up-btn")[0].addEventListener("click", () => {
                 Controller.signUp();
@@ -259,7 +268,7 @@ if (typeof document !== 'undefined') {
                 new Item("ETF Stock", 0, Infinity, 300000, 0.1, "investment", "./imgs/ETF Stock.png"),
                 new Item("ETF Bonds", 0, Infinity, 300000, 0.07, "investment", "./imgs/ETF Bonds.png"),
                 new Item("Lemonade Stand", 0, 1000, 30000, 30, "real estate", "./imgs/Lemonade Stand.png"),
-                new Item("Ice Cream Truck", 0, 500, 100000, 120, "real estate",  "./imgs/Ice Cream Truck.png"),
+                new Item("Ice Cream Truck", 0, 500, 100000, 120, "real estate", "./imgs/Ice Cream Truck.png"),
                 new Item("House", 0, 100, 20000000, 32000, "real estate", "./imgs/House.png"),
                 new Item("Town House", 0, 100, 40000000, 64000, "real estate", "./imgs/Town House.png"),
                 new Item("Mansion", 0, 20, 250000000, 500000, "real estate", "./imgs/Mansion.png"),
@@ -273,9 +282,9 @@ if (typeof document !== 'undefined') {
         static signUp() {
             const nameInput: HTMLInputElement = <HTMLInputElement>document.getElementById("nameInput");
             const userName: string = nameInput.value;
-            if(userName === ""){
+            if (userName === "") {
                 alert("Please type your name.");
-            } else if(localStorage.getItem(userName) !== null){
+            } else if (localStorage.getItem(userName) !== null) {
                 alert(`${userName} is already used. Please sign up with other name.`);
             } else {
                 const account = Controller.createAccount(userName);
@@ -287,13 +296,13 @@ if (typeof document !== 'undefined') {
         static login() {
             const nameInput: HTMLInputElement = <HTMLInputElement>document.getElementById("nameInput");
             const userName: string = nameInput.value;
-            if(userName === ""){
+            if (userName === "") {
                 alert("Please type your name.");
                 return;
             }
             // if the user name does not exists in the storage,
             // display alert
-            if(localStorage.getItem(userName) === null){
+            if (localStorage.getItem(userName) === null) {
                 alert("This user does not exist. Please sign up.");
                 return;
             }
@@ -312,7 +321,7 @@ if (typeof document !== 'undefined') {
             View.displayNone(Config.loginPage);
         }
 
-        static clickBurger(user: User){
+        static clickBurger(user: User) {
             user.burger++;
             user.money += user.burgerIncome;
             Config.gamePage.querySelectorAll("#burgerCount")[0].innerHTML = '';
@@ -332,7 +341,7 @@ if (typeof document !== 'undefined') {
 
         static dontSave(user: User) {
             const confirmation: boolean = confirm("Want to go back to login page? The progress won't be saved.");
-            if(confirmation === true){
+            if (confirmation === true) {
                 clearInterval(user.intervalId);
                 View.displayNone(Config.gamePage);
                 View.displayBlock(Config.loginPage);
@@ -353,10 +362,10 @@ if (typeof document !== 'undefined') {
                 Config.gamePage.querySelectorAll("#money")[0].innerHTML = '';
                 Config.gamePage.querySelectorAll("#money")[0].append(`¥${user.money}`);
 
-                if(user.day%365 === 0) {
+                if (user.day % 365 === 0) {
                     user.age++;
                     Config.gamePage.querySelectorAll("#age")[0].innerHTML = '';
-                    Config.gamePage.querySelectorAll("#age")[0].append(`${user.age} years old`);                    
+                    Config.gamePage.querySelectorAll("#age")[0].append(`${user.age} years old`);
                 }
             }, 1000)
         }

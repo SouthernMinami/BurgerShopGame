@@ -46,7 +46,7 @@ if (typeof document !== 'undefined') {
         };
         View.mainGameContaier = function (user) {
             var main = document.createElement("div");
-            main.classList.add("vh-100", "d-flex");
+            main.classList.add("container");
             main.innerHTML =
                 "\n                <div class=\"d-block d-sm-flex justify-content-center p-0 p-lg-2\" id=\"coalescence\">\n                    <div class=\"col-sm-4 p-1 p-lg-2\" id=\"left\"></div>\n                    <div class=\"col-sm-8 p-1 p-lg-2\">\n                        <div class=\"overflow-auto mt-lg-3 mt-1\" id=\"right\">\n                    </div>\n                </div>\n            ";
             var left = main.querySelectorAll("#left")[0];
@@ -59,7 +59,7 @@ if (typeof document !== 'undefined') {
         };
         View.leftContainer = function (user) {
             var left = document.createElement("div");
-            left.classList.add("vh-100", "col-10", "bg-dark", "mx-3", "mr-4");
+            left.classList.add("left");
             left.innerHTML =
                 "\n                <div class=\"text-center text-white\" id=\"burgerInfo\">\n                    <h5 id=\"burgerCount\">".concat(user.burger, " Burgers</h5>\n                    <p>One click \uFFE5").concat(user.burgerIncome, "</p>\n                </div>\n                <div class=\"mt-1 mt-sm-4\" id=\"burgerClick\">\n                    <img src=\"./imgs/burger.png\" class=\"hover img-fluid\">\n                </div>\n            ");
             left.querySelectorAll("#burgerClick")[0].addEventListener("click", function () {
@@ -69,15 +69,16 @@ if (typeof document !== 'undefined') {
         };
         View.rightContainer = function (user) {
             var right = document.createElement("div");
+            right.classList.add("right");
             right.append(View.infoContainer(user));
             right.append(View.itemsContainer(user, user.items));
             return right;
         };
         View.infoContainer = function (user) {
             var info = document.createElement("div");
-            info.classList.add("d-flex", "flex-wrap", "align-items-center", "col-12", "bg-dark");
+            info.classList.add("info");
             info.innerHTML =
-                "\n                <p class=\"col-6 bg-warning\">".concat(user.name, "</p>\n                <p id=\"age\" class=\"col-6 bg-warning\">").concat(user.age, " years old</p>\n                <p id=\"days\" class=\"col-6 bg-warning\">").concat(user.day, " days</p>\n                <p id=\"money\" class=\"col-6 bg-warning\">\u00A5").concat(user.money, "</p>\n            ");
+                "\n                <div>\n                    <p class=\"col-6 bg-warning\">".concat(user.name, "</p>\n                </div>\n                <div>                        \n                    <p id=\"age\" class=\"col-6 bg-warning\">").concat(user.age, " years old</p>\n                </div>\n                <div>\n                    <p id=\"days\" class=\"col-6 bg-warning\">").concat(user.day, " days</p>\n                </div>\n                <div>\n                    <p id=\"money\" class=\"col-6 bg-warning\">\u00A5").concat(user.money, "</p>\n                </div>\n            ");
             return info;
         };
         View.itemsContainer = function (user, itemList) {
@@ -148,7 +149,7 @@ if (typeof document !== 'undefined') {
         };
         View.configButtons = function (user) {
             var buttonsCon = document.createElement("div");
-            buttonsCon.classList.add("d-flex", "justify-content-end", "mt-3");
+            buttonsCon.classList.add("buttons");
             buttonsCon.innerHTML =
                 "\n                <button id=\"dontSave\" class=\"btn btn-outline-primary bg-white mr-3\">END WITHOUT SAVE</button>\n                <button id=\"save\" class=\"btn btn-primary mr-3\">SAVE AND END</button>\n            ";
             buttonsCon.querySelectorAll("#dontSave")[0].addEventListener("click", function () {

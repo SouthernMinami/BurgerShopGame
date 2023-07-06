@@ -16,3 +16,33 @@ body {
 .hover:active{
     padding-top: 2rem;
 }
+
+.container {
+    display: flex;
+    height: 100vh;
+}
+
+.left {
+    height: 100vh;
+    background: #343232;
+}
+
+.info {
+    display: flex;
+}
+
+.buttons {
+    display: flex;
+    justify-content: end;
+    margin-top: 3rem;
+}
+
+
+@media screen and (max-width: 480px) {
+    .left {
+        height: 52vh;
+    }
+    .container{
+        flex-flow: column;
+    }
+}
